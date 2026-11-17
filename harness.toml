@@ -1,0 +1,27 @@
+[model]
+name = "deepseek-chat"
+api_base = "https://api.deepseek.com"
+window = 128000
+temperature = 0
+
+[run]
+max_steps = 120
+max_nudges = 2
+compact_at = 0.7
+turn_keep = 8
+require_verification = true   # 改过文件后必须有一次成功的 bash 才能 finish
+compact_cooldown = 2          # 两次自动压缩之间至少隔几个 turn
+nudge_at = 0.75               # 步数用到这个比例时提醒模型收尾
+max_cost = 0                  # 成本上限（美元），0 = 不限制
+
+[sandbox]
+kind = "local"        # local | msb
+timeout = 120
+network = false
+shell = "auto"        # auto | cmd | pwsh | bash
+max_output = 1000000  # 单条命令输出上限（字符）
+
+[policy]
+auto_allow_read = true
+approval_mode = "interactive"   # interactive | deny
+allow_read_outside = false      # 默认禁止读 workspace 之外的路径

@@ -1,0 +1,63 @@
+{
+  "label": "repo-v4",
+  "model": "deepseek-chat",
+  "flags": {
+    "no_cache": false,
+    "no_compact": false,
+    "window": null,
+    "compact_at": null,
+    "turn_keep": 2
+  },
+  "created_at": "2026-11-06T15:30:44",
+  "passed": 1,
+  "total": 3,
+  "tokens": 1212725,
+  "cost": 0.040233,
+  "rows": [
+    {
+      "task": "repo-edit-lines",
+      "status": "max_steps",
+      "passed": false,
+      "check_rc": 1,
+      "check_out": "..F................F...................                                  [100%]\n================================== FAILURES ===================================\n__________________ test_edit_lines_keeps_no_trailing_newline __________________\n\ntmp_path = WindowsPath('C:/Users/device/Desktop/homework/harness-spec/.evals/work/repo-v4/repo-edit-lines/tmp-tests/tests__hidden_test.py_test_edit_lines_keeps",
+      "steps": 45,
+      "tokens": 640047,
+      "cost": 0.019737,
+      "seconds": 79.2,
+      "approvals": 56,
+      "compactions": 0,
+      "errors": 0,
+      "session": "bff9ced47bd4"
+    },
+    {
+      "task": "repo-pagination",
+      "status": "done",
+      "passed": true,
+      "check_rc": 0,
+      "check_out": "...............                                                          [100%]",
+      "steps": 12,
+      "tokens": 53962,
+      "cost": 0.004855,
+      "seconds": 19.8,
+      "approvals": 8,
+      "compactions": 0,
+      "errors": 0,
+      "session": "fc7c17bcb075"
+    },
+    {
+      "task": "repo-sessions-filter",
+      "status": "max_steps",
+      "passed": false,
+      "check_rc": 0,
+      "check_out": "....................                                                     [100%]",
+      "steps": 45,
+      "tokens": 518716,
+      "cost": 0.015641,
+      "seconds": 129.1,
+      "approvals": 29,
+      "compactions": 0,
+      "errors": 0,
+      "session": "319419354166"
+    }
+  ]
+}

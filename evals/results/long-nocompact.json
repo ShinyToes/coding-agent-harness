@@ -1,0 +1,33 @@
+{
+  "label": "long-nocompact",
+  "model": "deepseek-chat",
+  "flags": {
+    "no_cache": false,
+    "no_compact": true,
+    "window": 4000,
+    "compact_at": 0.5,
+    "turn_keep": 2
+  },
+  "created_at": "2026-11-05T16:12:27",
+  "passed": 1,
+  "total": 1,
+  "tokens": 18171,
+  "cost": 0.001089,
+  "rows": [
+    {
+      "task": "long-context",
+      "status": "done",
+      "passed": true,
+      "check_rc": 0,
+      "check_out": "OK",
+      "steps": 7,
+      "tokens": 18171,
+      "cost": 0.001089,
+      "seconds": 8.1,
+      "approvals": 3,
+      "compactions": 0,
+      "errors": 0,
+      "session": "f2ba603bc342"
+    }
+  ]
+}

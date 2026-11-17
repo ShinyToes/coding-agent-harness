@@ -1,0 +1,78 @@
+{
+  "label": "no-cache",
+  "model": "deepseek-chat",
+  "flags": {
+    "no_cache": true,
+    "no_compact": false,
+    "window": null,
+    "compact_at": null,
+    "turn_keep": 2
+  },
+  "created_at": "2026-11-05T16:13:33",
+  "passed": 4,
+  "total": 4,
+  "tokens": 48952,
+  "cost": 0.003509,
+  "rows": [
+    {
+      "task": "bug-average",
+      "status": "done",
+      "passed": true,
+      "check_rc": 0,
+      "check_out": "OK",
+      "steps": 6,
+      "tokens": 12431,
+      "cost": 0.000854,
+      "seconds": 8.4,
+      "approvals": 3,
+      "compactions": 0,
+      "errors": 0,
+      "session": "0f4103b8135a"
+    },
+    {
+      "task": "edge-empty",
+      "status": "done",
+      "passed": true,
+      "check_rc": 0,
+      "check_out": "OK",
+      "steps": 5,
+      "tokens": 10687,
+      "cost": 0.000814,
+      "seconds": 6.4,
+      "approvals": 3,
+      "compactions": 0,
+      "errors": 0,
+      "session": "17a2efb6f7bf"
+    },
+    {
+      "task": "feature-median",
+      "status": "done",
+      "passed": true,
+      "check_rc": 0,
+      "check_out": "OK",
+      "steps": 5,
+      "tokens": 10658,
+      "cost": 0.000943,
+      "seconds": 5.5,
+      "approvals": 2,
+      "compactions": 0,
+      "errors": 0,
+      "session": "ac97e7160190"
+    },
+    {
+      "task": "long-context",
+      "status": "done",
+      "passed": true,
+      "check_rc": 0,
+      "check_out": "OK",
+      "steps": 6,
+      "tokens": 15176,
+      "cost": 0.000898,
+      "seconds": 6.2,
+      "approvals": 3,
+      "compactions": 0,
+      "errors": 0,
+      "session": "2f34fe6f7a98"
+    }
+  ]
+}

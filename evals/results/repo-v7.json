@@ -1,0 +1,101 @@
+{
+  "label": "repo-v7",
+  "model": "deepseek-chat",
+  "flags": {
+    "no_cache": false,
+    "no_compact": false,
+    "window": null,
+    "compact_at": null,
+    "turn_keep": 2
+  },
+  "created_at": "2026-11-06T15:59:38",
+  "passed": 5,
+  "total": 5,
+  "categories": {
+    "pass": 5
+  },
+  "tokens": 863207,
+  "cost": 0.031473,
+  "rows": [
+    {
+      "task": "repo-edit-lines",
+      "status": "done",
+      "passed": true,
+      "category": "pass",
+      "check_rc": 0,
+      "check_out": "....................................                                     [100%]",
+      "steps": 43,
+      "tokens": 600210,
+      "cost": 0.015944,
+      "seconds": 64.9,
+      "approvals": 46,
+      "compactions": 0,
+      "errors": 0,
+      "session": "86114bcadc46"
+    },
+    {
+      "task": "repo-lock-ttl",
+      "status": "done",
+      "passed": true,
+      "category": "pass",
+      "check_rc": 0,
+      "check_out": "......................                                                   [100%]",
+      "steps": 14,
+      "tokens": 64740,
+      "cost": 0.003623,
+      "seconds": 24.1,
+      "approvals": 8,
+      "compactions": 0,
+      "errors": 0,
+      "session": "6d556bbf4b21"
+    },
+    {
+      "task": "repo-pagination",
+      "status": "done",
+      "passed": true,
+      "category": "pass",
+      "check_rc": 0,
+      "check_out": "...............                                                          [100%]",
+      "steps": 6,
+      "tokens": 20788,
+      "cost": 0.002736,
+      "seconds": 9.8,
+      "approvals": 3,
+      "compactions": 0,
+      "errors": 0,
+      "session": "2f66168180cd"
+    },
+    {
+      "task": "repo-refactor",
+      "status": "done",
+      "passed": true,
+      "category": "pass",
+      "check_rc": 0,
+      "check_out": "..........                                                               [100%]",
+      "steps": 6,
+      "tokens": 19337,
+      "cost": 0.002479,
+      "seconds": 8.5,
+      "approvals": 6,
+      "compactions": 0,
+      "errors": 0,
+      "session": "448131ef9124"
+    },
+    {
+      "task": "repo-sessions-filter",
+      "status": "done",
+      "passed": true,
+      "category": "pass",
+      "check_rc": 0,
+      "check_out": "....................                                                     [100%]",
+      "steps": 23,
+      "tokens": 158132,
+      "cost": 0.006691,
+      "seconds": 65.1,
+      "approvals": 17,
+      "compactions": 0,
+      "errors": 0,
+      "session": "b2831c97b7b7"
+    }
+  ]
+}

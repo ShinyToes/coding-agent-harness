@@ -1,0 +1,11 @@
+{
+  "identities": [
+    {
+      "name": "langfuse",
+      "credentials": [
+        { "accessKey": "minio", "secretKey": "miniosecret" }
+      ],
+      "actions": ["Admin", "Read", "Write"]
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+name: harness-langfuse
+
+# 本地 Langfuse v3（web + worker + postgres + clickhouse + redis + seaweedfs）
+# 镜像走 daocloud 镜像站：本机直连 Docker Hub 会超时，minio 官方镜像被镜像站拒绝，
+# 所以用 SeaweedFS 做 S3 兼容存储。
+# 用法：
+#   docker compose -f deploy/langfuse/docker-compose.yml up -d
+#   python deploy/langfuse/make_bucket.py          # 建 S3 bucket
+# 之后：
+#   endpoint = http://localhost:3000/api/public/otel
+#   header   = Authorization: Basic base64(public_key:secret_key)
+
+x-langfuse-env: &langfuse-env
+  DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+  SALT: harness-local-salt
+  ENCRYPTION_KEY: "0000000000000000000000000000000000000000000000000000000000000000"
+  CLICKHOUSE_URL: http://clickhouse:8123
+  CLICKHOUSE_MIGRATION_URL: clickhouse://clickhouse:9000
+  CLICKHOUSE_USER: clickhouse
+  CLICKHOUSE_PASSWORD: clickhouse
+  CLICKHOUSE_DB: default
+  CLICKHOUSE_CLUSTER_ENABLED: "false"
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"
+  LANGFUSE_S3_EVENT_UPLOAD_BUCKET: langfuse
+  LANGFUSE_S3_EVENT_UPLOAD_REGION: us-east-1
+  LANGFUSE_S3_EVENT_UPLOAD_ACCESS_KEY_ID: minio
+  LANGFUSE_S3_EVENT_UPLOAD_SECRET_ACCESS_KEY: miniosecret
+  LANGFUSE_S3_EVENT_UPLOAD_ENDPOINT: http://seaweedfs:8333
+  LANGFUSE_S3_EVENT_UPLOAD_FORCE_PATH_STYLE: "true"
+  LANGFUSE_S3_EVENT_UPLOAD_PREFIX: events
+  TELEMETRY_ENABLED: "false"
+
+services:
+  postgres:
+    image: docker.m.daocloud.io/library/postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  clickhouse:
+    image: docker.m.daocloud.io/clickhouse/clickhouse-server:24-alpine
+    environment:
+      CLICKHOUSE_USER: clickhouse
+      CLICKHOUSE_PASSWORD: clickhouse
+      CLICKHOUSE_DB: default
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    healthcheck:
+      test: ["CMD-SHELL", "clickhouse-client --user clickhouse --password clickhouse --query 'SELECT 1'"]
+      interval: 3s
+      timeout: 5s
+      retries: 40
+    volumes:
+      - clickhouse:/var/lib/clickhouse
+
+  redis:
+    image: docker.m.daocloud.io/library/redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    volumes:
+      - redis:/data
+
+  seaweedfs:
+    image: docker.m.daocloud.io/chrislusf/seaweedfs:latest
+    command: server -dir=/data -s3 -s3.port=8333 -s3.config=/etc/seaweedfs/s3.json
+    volumes:
+      - seaweed:/data
+      - ./seaweed-s3.json:/etc/seaweedfs/s3.json:ro
+    ports:
+      - "8333:8333"
+
+  langfuse-web:
+    image: docker.m.daocloud.io/langfuse/langfuse:3
+    depends_on:
+      postgres:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      seaweedfs:
+        condition: service_started
+    environment:
+      <<: *langfuse-env
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: harness-nextauth-secret
+      LANGFUSE_INIT_ORG_ID: harness
+      LANGFUSE_INIT_ORG_NAME: harness
+      LANGFUSE_INIT_PROJECT_ID: harness
+      LANGFUSE_INIT_PROJECT_NAME: harness
+      LANGFUSE_INIT_PROJECT_PUBLIC_KEY: pk-lf-harness-local
+      LANGFUSE_INIT_PROJECT_SECRET_KEY: sk-lf-harness-local
+      LANGFUSE_INIT_USER_EMAIL: dev@harness.local
+      LANGFUSE_INIT_USER_NAME: dev
+      LANGFUSE_INIT_USER_PASSWORD: harness-local-123
+    ports:
+      - "3000:3000"
+
+  langfuse-worker:
+    image: docker.m.daocloud.io/langfuse/langfuse-worker:3
+    depends_on:
+      postgres:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      seaweedfs:
+        condition: service_started
+    environment:
+      <<: *langfuse-env
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: harness-nextauth-secret
+
+volumes:
+  pgdata:
+  clickhouse:
+  redis:
+  seaweed:
